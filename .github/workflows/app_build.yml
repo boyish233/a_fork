@@ -5,4 +5,19 @@ jobs:
   build:
   runs-on: ubuntu-latest
   steps:
-    - uses: actions/checkout@v3
+  	- name: Checkout sources
+      uses: actions/checkout@v3
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: temurin
+        java-version: 17
+    - name: gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: current
+        arguments: assembleRelease
+    - name: upload apk
+      uses: actions/upload-artifact@v4
+      with:
+      	path: app/build/outputs/apk/release
